@@ -260,7 +260,7 @@ const SelectionArea = new Lang.Class({
 
 Signals.addSignalMethods(SelectionArea.prototype);
 
-const SelectionWindow = new Lang.Class({
+var SelectionWindow = new Lang.Class({
     Name: "EasyScreenCast.SelectionWindow",
 
     /**

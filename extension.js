@@ -21,7 +21,6 @@ const PopupMenu = imports.ui.popupMenu;
 const MessageTray = imports.ui.messageTray;
 const Slider = imports.ui.slider;
 const Main = imports.ui.main;
-const LibRecorder = imports.ui.screencast;
 
 const Gettext = imports.gettext.domain(
     "EasyScreenCast@iacopodeenosee.gmail.com"
@@ -438,9 +437,11 @@ const EasyScreenCast_Indicator = new Lang.Class({
                 // using v4l2src. This means that even if we pick a Pipewire
                 // device, we will always open it with v4l2src.
                 const device = devices[i - 1];
-                const devicePath = device
+                let devicePath = device
                     .get_properties()
                     .get_string("device.path");
+                if (devicePath === null)
+                    devicePath = device.get_properties().get_string('object.path');
                 iDevice = Number(devicePath.replace(/[^0-9]+/gi, ""));
             }
 
@@ -607,9 +608,7 @@ const EasyScreenCast_Indicator = new Lang.Class({
             this._onDelayTimeChanged()
         );
 
-        this.imSliderDelay.actor.add(this.TimeSlider.actor, {
-            expand: true,
-        });
+        this.imSliderDelay.actor.add_actor(this.TimeSlider.actor);
 
         return [this.DelayTimeTitle, this.imSliderDelay];
     },
